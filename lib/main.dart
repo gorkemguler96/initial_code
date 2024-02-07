@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: Grock.navigationKey,
       scaffoldMessengerKey: Grock.scaffoldMessengerKey,
       theme: ThemeData(
-        scaffoldBackgroundColor: Constat.dark
+        scaffoldBackgroundColor: Constant.dark,
       ),
       home: Splash()
     );
