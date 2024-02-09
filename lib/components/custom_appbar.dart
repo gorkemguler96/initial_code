@@ -25,9 +25,14 @@ class CustomAppBar extends StatelessWidget implements  PreferredSizeWidget {
           )
       ),
       actions: [
-        Padding(
-          padding: 10.allP,
-          child: SvgPicture.asset("assets/icons/search.svg", color: Constant.white, width: 50, height: 50),
+        GestureDetector(
+          onTap: () {
+            print("Search button clicked");
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: SvgPicture.asset("assets/icons/search.svg", color: Constant.white, width: 50, height: 50),
+          ),
         ),
       ],
       automaticallyImplyLeading: true,

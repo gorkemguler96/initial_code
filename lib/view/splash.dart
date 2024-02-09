@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
 import 'package:inital_code/constant/constant.dart';
-import 'package:inital_code/view/home.dart';
+import 'package:inital_code/view/Home/home.dart';
 
 class Splash extends StatefulWidget {
 
