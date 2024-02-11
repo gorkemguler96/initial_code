@@ -56,6 +56,45 @@ class _DetailsState extends State<Details> {
             color: Constant.red,
             onPressed: () {
               widget.addFavorite(_bookDetails);
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      side: BorderSide(color: Constant.orange, width: 2.0),
+                    ),
+                    backgroundColor: Constant.dark,
+                    title: Text(
+                      'Successful',
+                      style: TextStyle(
+                        color: Constant.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                    content: Text(
+                      'The book has been added to your favorite list',
+                      style: TextStyle(color: Constant.white),
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          'Okay',
+                          style: TextStyle(
+                            color: Constant.orange,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
             },
             icon: Icon(Icons.favorite),
             iconSize: 35,
