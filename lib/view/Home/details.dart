@@ -1,16 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:inital_code/constant/constant.dart';
 
-final favoriteItemsProvider = StateProvider<List<dynamic>>((ref) => []);
-
 class Details extends StatefulWidget {
+  const Details(this.id, {Key? key, required this.addFavorite})
+      : super(key: key);
+  final void Function(Object newFavorite) addFavorite;
   final dynamic id;
-  // final favoriteItemsProvider = StateProvider<List<dynamic>>((ref) => []);
-
-  const Details(this.id, {Key? key}) : super(key: key);
 
   @override
   State<Details> createState() => _DetailsState();
@@ -58,106 +55,152 @@ class _DetailsState extends State<Details> {
           IconButton(
             color: Constant.red,
             onPressed: () {
-              addToFavorites(context, _bookDetails);
-              print('Item added to favorites: $_bookDetails');
+              widget.addFavorite(_bookDetails);
             },
             icon: Icon(Icons.favorite),
             iconSize: 35,
           ),
         ],
       ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 8),
-          child: Center(
-            child: _bookDetails.isNotEmpty
-                ? Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Image.network(
-                  _bookDetails['volumeInfo']['imageLinks']['thumbnail'],
-                  width: 100,
-                  height: 150,
+      body: Center(
+        child: _bookDetails.isNotEmpty
+            ? Card(
+                elevation: 4,
+                margin: EdgeInsets.all(16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  side: BorderSide(color: Constant.orange, width: 2),
                 ),
-                SizedBox(height: 16),
-                Text(
-                      'Price: ${_bookDetails['saleInfo']['saleability'] == "NOT_FOR_SALE" ? "Not For Sale" : _bookDetails['saleInfo']['listPrice']['amount']} ${_bookDetails['saleInfo']['saleability'] == "NOT_FOR_SALE" ? " " : _bookDetails['saleInfo']['listPrice']['currencyCode']}',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 16,
-                          color:_bookDetails['saleInfo']['saleability'] == "NOT_FOR_SALE" ? Constant.red : Constant.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Constant.white, width: 1.0),
-                    ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Constant.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Image.network(
+                          _bookDetails['volumeInfo']['imageLinks']['thumbnail'],
+                          width: 100,
+                          height: 150,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: Constant.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          'Price: ${_bookDetails['saleInfo']['saleability'] == "NOT_FOR_SALE" ? "Not For Sale" : _bookDetails['saleInfo']['listPrice']['amount']} ${_bookDetails['saleInfo']['saleability'] == "NOT_FOR_SALE" ? " " : _bookDetails['saleInfo']['listPrice']['currencyCode']}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: _bookDetails['saleInfo']['saleability'] ==
+                                    "NOT_FOR_SALE"
+                                ? Constant.red
+                                : Constant.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: Constant.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          'Authors: ${_bookDetails['volumeInfo']['authors'][0]}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Constant.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: Constant.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          'Publisher: ${_bookDetails['volumeInfo']['publisher']}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Constant.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: Constant.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          'Publisher Date: ${_bookDetails['volumeInfo']['publishedDate']}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Constant.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: Constant.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          'Category: ${_bookDetails['volumeInfo']['categories'] != null ? _bookDetails['volumeInfo']['categories'][0] : "Not Available"}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Constant.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: Constant.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          'Maturity Rating: ${_bookDetails['volumeInfo']['maturityRating']}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Constant.black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  'Authors: ${_bookDetails['volumeInfo']['authors'][0]}',
-                  style: TextStyle(fontSize: 16, color: Constant.white,fontWeight: FontWeight.bold),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Constant.white, width: 1.0),
-                    ),
-                  ),
-                ),
-                Text(
-                  'Publisher: ${_bookDetails['volumeInfo']['publisher']}',
-                  style: TextStyle(fontSize: 16, color: Constant.white,fontWeight: FontWeight.bold),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Constant.white, width: 1.0),
-                    ),
-                  ),
-                ),
-                Text(
-                  'Publisher Date: ${_bookDetails['volumeInfo']['publishedDate']}',
-                  style: TextStyle(fontSize: 16, color: Constant.white,fontWeight: FontWeight.bold),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Constant.white, width: 1.0),
-                    ),
-                  ),
-                ),
-                Text(
-                  'Category: ${_bookDetails['volumeInfo']['categories'] != null ? _bookDetails['volumeInfo']['categories'][0] : "Not Available"}',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16, color: Constant.white,fontWeight: FontWeight.bold),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Constant.white, width: 1.0),
-                    ),
-                  ),
-                ),
-                Text(
-                  'Maturity Rating: ${_bookDetails['volumeInfo']['maturityRating']}',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16, color: Constant.white,fontWeight: FontWeight.bold),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Constant.white, width: 1.0),
-                    ),
-                  ),
-                ),
-              ],
-            )
-                : CircularProgressIndicator(),
-          ),
-        ),
+              )
+            : CircularProgressIndicator(),
+      ),
     );
   }
-
-  void addToFavorites(BuildContext context, Map<String, dynamic> bookDetails) {}
 }

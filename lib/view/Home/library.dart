@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:grock/grock.dart';
 import 'package:http/http.dart' as http;
@@ -7,7 +6,11 @@ import 'package:inital_code/constant/constant.dart';
 import 'package:inital_code/view/Home/details.dart';
 
 class Library extends StatefulWidget {
-  const Library({Key? key}) : super(key: key);
+  const Library({
+    Key? key,
+    required this.addFavorite,
+  }) : super(key: key);
+  final void Function(Object newFavorite) addFavorite;
 
   @override
   State<Library> createState() => _LibraryState();
@@ -83,8 +86,7 @@ class _LibraryState extends State<Library> {
     return Expanded(
       child: InkWell(
         onTap: () {
-          print(book['id']);
-          Grock.to(Details(book['id']));
+          Grock.to(Details(book['id'], addFavorite: widget.addFavorite));
         },
         child: Container(
           width: 200,
@@ -95,7 +97,7 @@ class _LibraryState extends State<Library> {
             color: Constant.darkWhite,
             border: Border.all(color: Constant.yellow, width: 2.0),
             borderRadius: BorderRadius.only(
-              topRight: Radius.circular(12), // Sağ üst köşe yuvarlaklığı
+              topRight: Radius.circular(12),
             ),
           ),
           child: Column(
@@ -109,7 +111,11 @@ class _LibraryState extends State<Library> {
               ),
               SizedBox(height: 8),
               Text(
-                book['title'],
+                book['title'] != null
+                    ? (book['title'].toString().length <= 45
+                        ? book['title']
+                        : book['title'].toString().substring(0, 45))
+                    : '',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 15,
@@ -122,7 +128,5 @@ class _LibraryState extends State<Library> {
         ),
       ),
     );
-
-    ;
   }
 }

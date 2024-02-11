@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inital_code/view/splash.dart';
@@ -14,14 +12,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'initial code',
-      debugShowCheckedModeBanner: false,
-      navigatorKey: Grock.navigationKey,
-      scaffoldMessengerKey: Grock.scaffoldMessengerKey,
-      theme: ThemeData(
-        scaffoldBackgroundColor: Constant.dark,
-      ),
-      home: Splash()
-    );
+        title: 'Inıtial Code',
+        debugShowCheckedModeBanner: false,
+        navigatorKey: Grock.navigationKey,
+        scaffoldMessengerKey: Grock.scaffoldMessengerKey,
+        theme: ThemeData(
+          scaffoldBackgroundColor: Constant.dark,
+        ),
+        home: Splash());
   }
 }
